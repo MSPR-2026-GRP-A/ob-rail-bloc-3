@@ -1,0 +1,15 @@
+services:
+  database:
+    container_name: database
+    build: ./postgresql
+    networks:
+      - ob-rail_backend_net
+    volumes:
+      - ./postgresql/data:/var/lib/postgresql
+    restart: unless-stopped
+
+networks:
+  ob-rail_frontend_net: 
+  ob-rail_backend_net:
+    internal: true
+  ob-rail_monitor_net:
