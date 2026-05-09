@@ -35,6 +35,16 @@ cd <nom-du-projet>
 git submodule update --init --recursive
 ```
 
+### 2. Créer le réseau partagé
+
+Pour que database puisse communiquer avec les jobs (située dans un autre projet), il est nécessaire de créer un réseau Docker partagé avant le lancement (si vous l'avez déjà fait en démarrant les jobs alors sautez cette étape).
+
+Dans votre terminal, exécutez la commande suivante :
+
+```bash
+docker network create --driver bridge ob-rail_etl_net
+```
+
 ### 2. Lancer la stack
 ```bash
 docker-compose up -d --build

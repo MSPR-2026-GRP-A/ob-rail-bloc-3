@@ -1,15 +1,52 @@
+volumes:
+  netdataconfig:
+  netdatalib:
+  netdatacache:
 services:
   database:
     container_name: database
     build: ./postgresql
+    environment:
+      POSTGRES_DB: ObRail
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: tchou_tchou
     networks:
       - ob-rail_backend_net
+      # - ob-rail_etl_net
     volumes:
       - ./postgresql/data:/var/lib/postgresql
+      - ./postgresql/db.sql:/docker-entrypoint-initdb.d/01-init.sql
+    ports:
+      - "5432:5432"
     restart: unless-stopped
 
+  backend:
+    container_name: backend
+    build: ./backend-bloc-3
+    networks:
+      - ob-rail_backend_net
+      - ob-rail_frontend_net
+    depends_on:
+      - database
+    volumes:
+      - ./backend-bloc-3:/app
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+
+  frontend:
+    container_name: frontend
+    build: ./frontend-Bloc-3
+    networks:
+      - ob-rail_frontend_net
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    
 networks:
-  ob-rail_frontend_net: 
   ob-rail_backend_net:
     internal: true
+  ob-rail_frontend_net: 
   ob-rail_monitor_net:
