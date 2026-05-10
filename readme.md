@@ -6,7 +6,7 @@ Voici le README mis à jour avec une section dédiée à la gestion des submodul
 
 # Stack Docker-Compose (Multi-repo)
 
-Ce projet orchestre une architecture complète en microservices. Le code source du Frontend et du Backend est géré via des **Git Submodules**.
+Ce projet orchestre une architecture complète en microservices. Le code source du Frontend et du Backend est géré dans des **dépôts Git séparés**, clonés indépendamment.
 
 ## Architecture Réseau
 Pour garantir la sécurité, les réseaux sont segmentés :
@@ -24,15 +24,20 @@ Pour garantir la sécurité, les réseaux sont segmentés :
 
 ## Installation et Démarrage
 
-### 1. Cloner le projet (avec les submodules)
-Comme le Frontend et le Backend sont des dépôts séparés, utilisez cette commande pour tout récupérer d'un coup :
+### 1. Cloner le projet et ses dépendances
+Le Frontend et le Backend sont des **dépôts Git séparés** clonés indépendamment :
 ```bash
-git clone --recursive <url-du-depot-parent>
-cd <nom-du-projet>
-```
-*Si vous avez déjà cloné sans l'option `--recursive` :*
-```bash
-git submodule update --init --recursive
+git clone <url-du-depot-principal>
+cd ob-rail-bloc-3
+
+# Cloner les sous-projets s'ils ne sont pas déjà présents
+git clone git@github.com:MRSP-2026-GRP-A/frontend-Bloc-3.git frontend-Bloc-3
+git clone git@github.com:MRSP-2026-GRP-A/backend-bloc-3.git backend-bloc-3
+
+#Ou si c'est pas avec une clé SSH
+git clone https://github.com/MRSP-2026-GRP-A/frontend-Bloc-3.git frontend-Bloc-3
+git clone https://github.com/MRSP-2026-GRP-A/backend-bloc-3.git backend-bloc-3
+
 ```
 
 ### 2. Créer le réseau partagé
@@ -53,10 +58,10 @@ docker-compose up -d --build
 
 ---
 
-## Travailler avec les Submodules
-Lorsque vous modifiez le code dans les dossiers `frontend/` ou `backend/` :
+## Travailler avec les Sous-projets
+Lorsque vous modifiez le code dans les dossiers `frontend-Bloc-3/` ou `backend-bloc-3/` :
 
-*   **Mettre à jour les sous-modules :** `git submodule update --remote`
+*   **Mettre à jour les sous-projets :** `git pull` dans chaque dossier séparément
 *   **Reconstruire un service spécifique :** `docker-compose up -d --build backend`
 
 ---

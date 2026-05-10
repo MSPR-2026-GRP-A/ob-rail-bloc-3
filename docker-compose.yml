@@ -44,6 +44,25 @@ services:
     ports:
       - "3000:3000"
     restart: unless-stopped
+  
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      - ob-rail_backend_net
+      - ob-rail_monitor_net
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana
+    ports:
+      - "3030:3000"
+    networks:
+      - ob-rail_monitor_net
     
 networks:
   ob-rail_backend_net:
