@@ -26,6 +26,7 @@ services:
     networks:
       - ob-rail_backend_net
       - ob-rail_frontend_net
+      - nginx-proxy
     depends_on:
       - database
     volumes:
@@ -39,6 +40,7 @@ services:
     build: ./frontend-Bloc-3
     networks:
       - ob-rail_frontend_net
+      - nginx-proxy
     depends_on:
       - backend
     ports:
@@ -63,6 +65,7 @@ services:
       - "3030:3000"
     networks:
       - ob-rail_monitor_net
+      - nginx-proxy
 
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:latest
@@ -90,11 +93,26 @@ services:
     container_name: promtail
     volumes:
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
-      - ./promtail-config.yml:/etc/promtail/config.yml
+      - ./promtail/promtail-config.yml:/etc/promtail/config.yml
     networks:
       - ob-rail_monitor_net
-    
+  
+  nginx_proxy_manager:
+    image: 'jc21/nginx-proxy-manager:latest'
+    container_name: nginx_proxy_manager
+    ports:
+      - '80:80'
+      - '81:81'
+      - '443:443'
+    networks:
+      - nginx-proxy
+    volumes:
+      - ./nginx-data:/data
+      - ./letsencrypt:/etc/letsencrypt
+    restart: unless-stopped
+      
 networks:
+  nginx-proxy:
   ob-rail_backend_net:
     internal: true
   ob-rail_frontend_net: 
