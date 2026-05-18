@@ -44,7 +44,13 @@ Dans votre terminal, exécutez la commande suivante :
 docker network create --driver bridge ob-rail_etl_net
 ```
 
-### 2. Lancer la stack
+### 2. Créer les .env
+Dans le dossier backend et frontend, à partir de leur .env.example respectif
+
+Pour le frontend : l'url de l'API
+Pour le backend : l'url de la DB, User, Password
+
+### 3. Lancer la stack
 ```bash
 docker-compose up -d --build
 ```
@@ -70,10 +76,9 @@ docker-compose up -d
 ---
 
 ## Accès aux services
-*   **Frontend** : /
-*   **Backend API** : /
-*   **Dashboard Traefik** : /
-*   **Monitoring** : /
+*   **Frontend** : /3000
+*   **Backend API** : /8000
+*   **Monitoring** : /3030
 
 ---
 
@@ -83,5 +88,4 @@ docker-compose up -d
 | Voir les logs | `docker-compose logs -f` |
 | Arrêter la stack | `docker-compose stop` |
 | Tout supprimer (volumes inclus) | `docker-compose down -v` |
-
 ```
