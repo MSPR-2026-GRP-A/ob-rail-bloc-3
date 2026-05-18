@@ -1,9 +1,3 @@
-C'est une excellente précision. Travailler avec des **submodules** est très courant pour séparer le code du Frontend et du Backend tout en gardant une orchestration centrale.
-
-Voici le README mis à jour avec une section dédiée à la gestion des submodules et la commande de clonage spécifique.
-
----
-
 # Stack Docker-Compose (Multi-repo)
 
 Ce projet orchestre une architecture complète en microservices. Le code source du Frontend et du Backend est géré dans des **dépôts Git séparés**, clonés indépendamment.
