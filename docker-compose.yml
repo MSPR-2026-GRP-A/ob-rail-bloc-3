@@ -65,6 +65,9 @@ services:
     image: grafana/grafana
     ports:
       - "3030:3000"
+    volumes:
+      - ./grafana-data:/var/lib/grafana
+    user: "472"
     networks:
       - ob-rail_monitor_net
       - nginx-proxy
