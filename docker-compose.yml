@@ -48,7 +48,7 @@ services:
     ports:
       - "3000:3000"
     restart: unless-stopped
-  
+
   prometheus:
     container_name: prometheus
     image: prom/prometheus
@@ -71,6 +71,8 @@ services:
     networks:
       - ob-rail_monitor_net
       - nginx-proxy
+    environment:
+      - GF_SECURITY_ALLOW_EMBEDDING=true
 
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:latest
@@ -84,7 +86,7 @@ services:
       - "8080:8080"
     networks:
       - ob-rail_monitor_net
-    
+
   loki:
     image: grafana/loki:latest
     container_name: loki
@@ -101,24 +103,24 @@ services:
       - ./promtail/promtail-config.yml:/etc/promtail/config.yml
     networks:
       - ob-rail_monitor_net
-  
+
   nginx_proxy_manager:
-    image: 'jc21/nginx-proxy-manager:latest'
+    image: "jc21/nginx-proxy-manager:latest"
     container_name: nginx_proxy_manager
     ports:
-      - '80:80'
-      - '81:81'
-      - '443:443'
+      - "80:80"
+      - "81:81"
+      - "443:443"
     networks:
       - nginx-proxy
     volumes:
       - ./nginx-data:/data
       - ./letsencrypt:/etc/letsencrypt
     restart: unless-stopped
-      
+
 networks:
   nginx-proxy:
   ob-rail_backend_net:
     internal: true
-  ob-rail_frontend_net: 
+  ob-rail_frontend_net:
   ob-rail_monitor_net:
