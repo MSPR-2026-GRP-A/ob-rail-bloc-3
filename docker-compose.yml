@@ -22,27 +22,27 @@ services:
 
   backend:
     container_name: backend
-    build: ./backend-bloc-3
+    build: ./backend
     networks:
       - ob-rail_backend_net
       - ob-rail_frontend_net
-      - nginx-proxy
+      # - nginx-proxy
     depends_on:
       - database
     volumes:
-      - ./backend-bloc-3:/app
+      - ./backend:/app
     restart: unless-stopped
     ports:
       - "8000:8000"
     env_file:
-      - ./backend-bloc-3/.env
+      - ./backend/.env
 
   frontend:
     container_name: frontend
-    build: ./frontend-Bloc-3
+    build: ./frontend
     networks:
       - ob-rail_frontend_net
-      - nginx-proxy
+      # - nginx-proxy
     depends_on:
       - backend
     ports:
@@ -70,9 +70,7 @@ services:
     user: "472"
     networks:
       - ob-rail_monitor_net
-      - nginx-proxy
-    environment:
-      - GF_SECURITY_ALLOW_EMBEDDING=true
+      # - nginx-proxy
 
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:latest
@@ -103,21 +101,21 @@ services:
       - ./promtail/promtail-config.yml:/etc/promtail/config.yml
     networks:
       - ob-rail_monitor_net
-
-  nginx_proxy_manager:
-    image: "jc21/nginx-proxy-manager:latest"
-    container_name: nginx_proxy_manager
-    ports:
-      - "80:80"
-      - "81:81"
-      - "443:443"
-    networks:
-      - nginx-proxy
-    volumes:
-      - ./nginx-data:/data
-      - ./letsencrypt:/etc/letsencrypt
-    restart: unless-stopped
-
+  
+  # nginx_proxy_manager:
+  #   image: 'jc21/nginx-proxy-manager:latest'
+  #   container_name: nginx_proxy_manager
+  #   ports:
+  #     - '80:80'
+  #     - '81:81'
+  #     - '443:443'
+  #   networks:
+      # - nginx-proxy
+  #   volumes:
+  #     - ./nginx-data:/data
+  #     - ./letsencrypt:/etc/letsencrypt
+  #   restart: unless-stopped
+      
 networks:
   nginx-proxy:
   ob-rail_backend_net:
