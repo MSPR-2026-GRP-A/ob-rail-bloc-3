@@ -1,0 +1,6 @@
+[submodule "frontend"]
+	path = frontend
+	url = git@github.com:MSPR-2026-GRP-A/frontend-Bloc-3.git
+[submodule "backend"]
+	path = backend
+	url = git@github.com:MSPR-2026-GRP-A/backend-bloc-3.git
